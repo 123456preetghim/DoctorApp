@@ -1,7 +1,7 @@
 import React from "react";
 import { TEInput, TERipple } from "tw-elements-react";
 
-export default function BasicExample(): JSX.Element {
+export default function BasicExample(){
   return (
     <section className="h-screen">
       <div className="h-full">
