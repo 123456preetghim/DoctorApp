@@ -16,7 +16,7 @@ import About from '../components/About/About';
 import ServiceList from '../components/Services/ServiceList';
 import DoctorList from '../components/Doctors/DoctorList';
 import FaqList from '../components/Faq/FaqList';
-import Footer from '../components/Footer/Footer';
+
 
 
 
@@ -284,13 +284,13 @@ const Home = () => {
             world-class care for everyone. our health system offers unmatched,
             expert health care.
           </p>
+       
         </div>
 
       
         </div>
           </section>
-          /* ============= TESTIMONIAL end ============= */} 
-
+          /* ============= TESTIMONIAL end ============= */}
 
            {/* ============= Footer section ============= */}
 
