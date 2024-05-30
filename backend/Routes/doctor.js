@@ -4,29 +4,23 @@ import {
     deleteDoctor,
     getAllDoctor,
     getSingleDoctor,
+    getDoctorProfile,
 } from "../Controllers/doctorController.js";
-
 import { authenticate, restrict } from "../auth/verifyToken.js";
-
+import reviewRouter from "./review.js";
 
 const router = express.Router();
 
+// Nested route
+router.use("/:doctorId/reviews", reviewRouter);
 
-
-// Get a single doctor by ID
 router.get("/:id", getSingleDoctor);
-
-// Get all doctors (restricted to admin role)
 router.get("/", getAllDoctor);
 
-// Update a doctor's information
-router.put("/:id", authenticate, restrict(["doctor"]), async(req, res) => {
-    await updateDoctor(req, res);
-});
+router.put("/:id", authenticate, restrict(["doctor"]), updateDoctor);
+router.delete("/:id", authenticate, restrict(["doctor"]), deleteDoctor);
 
-// Delete a doctor (restricted to doctor role)
-router.delete("/:id", authenticate, restrict(["doctor"]), async(req, res) => {
-    await deleteDoctor(req, res);
-});
+// Use consistent spacing and remove the extra period before router.get
+router.get('/profile/me', authenticate, restrict(['doctor']), getDoctorProfile);
 
 export default router;

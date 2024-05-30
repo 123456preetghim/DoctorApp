@@ -1,9 +1,9 @@
 
-import {useEffect, useRef } from 'react';
+import  { useEffect, useRef, useContext } from 'react';
 import { NavLink, Link } from 'react-router-dom';
-import { BiMenu } from 'react-icons/bi'; // Corrected import
+import { BiMenu } from 'react-icons/bi';
 import logo from '../../assets/images/logo.jpg';
-import userImg from '../../assets/images/avatar-icon.jpg';
+import { authContext } from '../../context/AuthContext';
 
 const navLinks = [
   {
@@ -25,24 +25,24 @@ const navLinks = [
 ];
 
 const Header = () => {
-  const headerRef = useRef(null)
-  const menuRef = useRef(null)
+  const headerRef = useRef(null);
+  const menuRef = useRef(null);
+  const { user, role, token } = useContext(authContext);
 
-
-  const handleStickyHeader = ()=> {
-    window.addEventListener('scroll', ()=>{
-      if(document.body.scrollTop > 80 || document.documentElement.scrollTop > 80){
+  const handleStickyHeader = () => {
+    window.addEventListener('scroll', () => {
+      if (document.body.scrollTop > 80 || document.documentElement.scrollTop > 80) {
         headerRef.current.classList.add('sticky__header');
-      }else{
+      } else {
         headerRef.current.classList.remove('sticky__header');
       }
-    })
-  }
+    });
+  };
 
-  useEffect(()=>{
-    handleStickyHeader()
-    return ()=> window.removeEventListener('scroll', handleStickyHeader);
-  });
+  useEffect(() => {
+    handleStickyHeader();
+    return () => window.removeEventListener('scroll', handleStickyHeader);
+  }, []);
 
   const toggleMenu = () => menuRef.current.classList.toggle('show__menu');
 
@@ -50,50 +50,50 @@ const Header = () => {
     <header className="header flex items-center" ref={headerRef}>
       <div className='container'>
         <div className='flex items-center justify-between'>
-          {/* ============ logo ========== */}
           <div>
-            <img src={logo} alt='Logo' /> {/* alt text added */}
+            <img src={logo} alt='Logo' />
           </div>
-
-          {/* ======== menu ======= */}
           <div className='navigation' ref={menuRef} onClick={toggleMenu}>
             <ul className='menu flex items-center gap-[2.7rem]'>
               {navLinks.map((item, index) => (
                 <li key={index}>
-                 <NavLink
+                  <NavLink
                     to={item.path}
-                    activeclassname='text-primaryColor text-[16px] leading-7 font-[600]'
-                    className='text-textColor text-[16px] leading-7 font-[500] hover:text-primaryColor'
+                    className={({ isActive }) =>
+                      isActive
+                        ? 'text-primaryColor text-[16px] leading-7 font-[600]'
+                        : 'text-textColor text-[16px] leading-7 font-[500] hover:text-primaryColor'
+                    }
                   >
-                  {item.display}
-                </NavLink>
-
+                    {item.display}
+                  </NavLink>
                 </li>
               ))}
             </ul>
           </div>
-
-          {/*========= nav right ========= */}
+          {/*========= nav class =====*/}
           <div className='flex items-center gap-4'>
-            <div className='hidden'>
-              <Link to='/'>
-                <figure className='w-[35px] h-[35px] rounded-full cursor-pointer'>
-                  <img src={userImg} className='w-full rounded-full' alt='User' />
-                </figure>
+            {token && user ? (
+              <div>
+                <Link to={role === "doctor" ? "/doctors/profile/me" : "/users/profile/me"}>
+                  <figure className='w-[35px] h-[35px] rounded-full cursor-pointer'>
+                    <img src={user?.photo} className='w-full rounded-full' alt={user?.name} />
+                  </figure>
+                  
+                </Link>
+              </div>
+            ) : (
+              <Link to='/login'>
+                <button className='bg-primaryColor py-2 px-6 text-white font-[600] h-[44px] flex items-center justify-center rounded-[50px]'>
+                  Login
+                </button>
               </Link>
-            </div>
-
-            <Link to='/Login'>
-              <button className='bg-primaryColor py-2 px-6 text-white font-[600] h-[44px] flex items-center
-              justify-center rounded-[50px]'>
-                Login
-              </button>
-            </Link>
-
+            )}
             <span className='md:hidden' onClick={toggleMenu}>
-              <BiMenu className='w-6 h-6 cursor-pointer' /> {/* Corrected BiMenu */}
+              <BiMenu className='w-6 h-6 cursor-pointer' />
             </span>
           </div>
+
         </div>
       </div>
     </header>

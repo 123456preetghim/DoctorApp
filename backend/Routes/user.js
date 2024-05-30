@@ -4,30 +4,18 @@ import {
     deleteUser,
     getAllUser,
     getSingleUser,
+    getUserProfile,
+    getMyAppointments,
 } from "../Controllers/userController.js";
-
 import { authenticate, restrict } from "../auth/verifyToken.js";
 
 const router = express.Router();
 
-// Get a single user by ID
-router.get("/:id", authenticate, restrict(["patient"]), async(req, res) => {
-    await getSingleUser(req, res);
-});
-
-// Get all users (restricted to admin role)
-router.get("/", authenticate, restrict(["admin"]), async(req, res) => {
-    await getAllUser(req, res);
-});
-
-// Update a user's information
-router.put("/:id", authenticate, restrict(["patient"]), async(req, res) => {
-    await updateUser(req, res);
-});
-
-// Delete a user (restricted to doctor role)
-router.delete("/:id", authenticate, restrict(["patient"]), async(req, res) => {
-    await deleteUser(req, res);
-});
+router.get("/:id", authenticate, restrict(["patient"]), getSingleUser);
+router.get("/", authenticate, restrict(["admin"]), getAllUser);
+router.put("/:id", authenticate, restrict(["patient"]), updateUser);
+router.delete("/:id", authenticate, restrict(["patient"]), deleteUser);
+router.get("/profile/me", authenticate, restrict(["patient"]), getUserProfile);
+router.get("/appointments/my-appointments", authenticate, restrict(["patient"]), getMyAppointments);
 
 export default router;

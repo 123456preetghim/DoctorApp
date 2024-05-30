@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import Doctor from "./DoctorSchema.js";
 
 const reviewSchema = new mongoose.Schema({
     doctor: {
@@ -44,25 +45,18 @@ reviewSchema.statics.calcAverageRatings = async function(doctorId) {
         },
     ]);
 
-    // Update the Doctor model with calculated statistics
-    if (stats.length > 0) {
-        await Doctor.findByIdAndUpdate(doctorId, {
-            totalRating: stats[0].numOfRating,
-            averageRating: stats[0].avgRating,
-        });
-    } else {
-        // Handle the case where there are no reviews for the doctor
-        await Doctor.findByIdAndUpdate(doctorId, {
-            totalRating: 0,
-            averageRating: 0,
-        });
-    }
+
+    await Doctor.findByIdAndUpdate(doctorId, {
+        totalRating: stats[0].numOfRating,
+        averageRating: stats[0].avgRating,
+    });
 };
 
 // Post middleware to trigger the calculation of average ratings after saving a review
 reviewSchema.post("save", function() {
     this.constructor.calcAverageRatings(this.doctor);
 });
+
 
 // Export the model
 export default mongoose.model("Review", reviewSchema);

@@ -5,7 +5,7 @@ import { authenticate, restrict } from "../auth/verifyToken.js";
 const router = express.Router({ mergeParams: true });
 
 router.route("/")
-    .get(getAllReviews)
-    .post(authenticate, restrict(["patient"]), createReview);
+    .get(getAllReviews) // Anyone can access reviews
+    .post(authenticate, restrict(["patient"]), createReview); // Only authenticated patients can create reviews
 
 export default router;

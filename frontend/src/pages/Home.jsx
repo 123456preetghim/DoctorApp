@@ -275,7 +275,7 @@ const Home = () => {
       </section>
          {/* ============= Faq section end ============= */}
 
-          {/* ============= TESTIMONIAL ============= */
+          {/* ============= TESTIMONIAL ============= 
           <section>
           <div className="container">
             <div className='xl:w-[470px] mx-auto'>

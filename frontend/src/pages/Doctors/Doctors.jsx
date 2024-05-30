@@ -3,6 +3,7 @@ import DoctorCard from "../../components/Doctors/DoctorCard";
 import DoctorDetails from "./DoctorDetails";
 import { doctor } from "../../assets/data/doctor";
 
+
 const Doctors = () => {
   return (
     <>

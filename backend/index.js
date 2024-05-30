@@ -6,6 +6,7 @@ import dotenv from 'dotenv';
 import authRoutes from "./Routes/auth.js";
 import userRoutes from "./Routes/user.js";
 import doctorRoutes from "./Routes/doctor.js";
+import reviewRoutes from "./Routes/review.js";
 
 
 // Load environment variables from .env file
@@ -38,7 +39,7 @@ app.use((err, req, res, next) => {
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/users", userRoutes);
 app.use("/api/v1/doctors", doctorRoutes);
-//app.use("/api/v1/doctors", reviewRoutes);
+app.use("/api/v1/reviews", reviewRoutes);
 
 // Database connection
 mongoose.set('strictQuery', false);
