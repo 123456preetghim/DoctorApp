@@ -7,6 +7,7 @@ import authRoutes from "./Routes/auth.js";
 import userRoutes from "./Routes/user.js";
 import doctorRoutes from "./Routes/doctor.js";
 import reviewRoutes from "./Routes/review.js";
+import BookingRoutes from "./Routes/booking.js";
 
 
 // Load environment variables from .env file
@@ -16,7 +17,8 @@ const app = express();
 const port = process.env.PORT || 5000;
 
 const corsOptions = {
-    origin: process.env.NODE_ENV === 'production' ? ' http://localhost:5173/' : true,
+    origin: "*"
+        //process.env.NODE_ENV === 'production' ? ' http://localhost:5173/' : true,
 };
 
 app.use(cors(corsOptions));
@@ -40,6 +42,8 @@ app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/users", userRoutes);
 app.use("/api/v1/doctors", doctorRoutes);
 app.use("/api/v1/reviews", reviewRoutes);
+app.use("/api/v1/bookings", BookingRoutes);
+
 
 // Database connection
 mongoose.set('strictQuery', false);

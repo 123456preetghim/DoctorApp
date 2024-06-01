@@ -6,21 +6,23 @@ import User from "../models/UserSchema.js";
 export const updateDoctor = async(req, res) => {
     const id = req.params.id;
     try {
-        const Doctor = await Doctor.findByIdAndUpdate(id, {
+        const doctor = await Doctor.findByIdAndUpdate(id, {
             name: req.body.name,
             password: req.body.password,
             bloodType: req.body.bloodType,
             gender: req.body.gender,
             photo: req.body.photo,
+            ticketPrice: +req.body.ticketPrice || 200,
         }, { new: true });
 
         res.status(200).json({
             success: true,
             message: "Successfully updated",
-            data: updatedDoctor,
+            data: doctor,
         });
 
     } catch (err) {
+        console.log(err)
         res.status(500).json({ success: false, message: "Failed to update" });
     }
 };

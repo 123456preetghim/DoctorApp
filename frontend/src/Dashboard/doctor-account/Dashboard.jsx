@@ -7,8 +7,10 @@ import { BASE_URL } from '../../config';
 import DoctorAbout from '../../pages/Doctors/DoctorAbout';
 import starIcon from '../../assets/images/Star.jpg';
 import Profile from './Profile';
+import Appointments from './Appointments';
 
 const Dashboard = () => {
+  console.log("err");
   const { data, loading, error } = useGetProfile(`${BASE_URL}/doctors/profile/me`);
   const [tab, setTab] = useState('overview');
 
@@ -64,11 +66,12 @@ const Dashboard = () => {
                           </span>
 
                           <span className="text-textColor text-[14px] leading-5 lg:text-[16px] lg:leading-6 font-semibold">
-                           {data.totalRating}
+                          ({data.totalRating})
                           </span>
                         </div>
 
-                        <p className="text_para font-[15px] lg:max-w-[390px] leading-6">doctor bio</p>
+                        <p className="text_para font-[15px] lg:max-w-[390px] leading-6">
+                          {data?.bio}</p>
                         <DoctorAbout
                           name={data.name}
                           about={data.about}
@@ -80,8 +83,8 @@ const Dashboard = () => {
                   </div>
                 )}
 
-                {tab === 'appointments' && <div>appointments</div>}
-                {tab === 'settings' && <Profile />}
+                {tab === 'appointments' && <Appointments appointments={data.appointments}/>}
+                {tab === 'settings' && <Profile doctorData={data} />}
               </div>
             </div>
           </div>
